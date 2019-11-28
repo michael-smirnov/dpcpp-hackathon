@@ -27,6 +27,6 @@ where first line represents the path p0-p2-p3-p1, and the second is p0-p3-p2-p1
 ## Conditions of the competition
 Execution time of a program is limited by 60 seconds and the program will be killed after this time.
 
-The scoring script analyses last three lines sent to *stdout* starting from the last and accepts the first appropriate solution
+The scoring script analyses *stdout* starting from the last line and accepts the first appropriate solution
 
 The participant who finds the shortest path wins
