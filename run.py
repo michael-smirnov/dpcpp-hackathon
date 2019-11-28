@@ -25,24 +25,24 @@ if __name__ == '__main__':
         datapath = sys.argv[1]
         timeout_sec = 60
         exepath = './a.out'
-        
+
         if len(sys.argv) > 2:
             exepath = sys.argv[2]
             if len(sys.argv) > 3:
                 timeout_sec = int(sys.argv[3])
-            
+
     proc = Popen([exepath], stdout=PIPE, stdin=open(datapath, 'r'))
-    
+
     start_time = time.perf_counter()
     try:
         output, error = proc.communicate(timeout=timeout_sec)
     except TimeoutExpired:
         proc.kill()
         output, error = proc.communicate()
-    end_time = time.perf_counter() 
-    
+    end_time = time.perf_counter()
+
     print('TIME =', end_time - start_time)
-    
+
     records = output.decode('utf-8').split('\n')
     if len(records) > 1:
         records = records[0:-1]
@@ -56,14 +56,8 @@ if __name__ == '__main__':
         if i == max_tries-1:
             print('RUN FAILED')
             exit(1)
-    
+
     data = np.loadtxt(datapath, skiprows=1)
     distances = [[math.sqrt((p1[0]-p2[0])**2 + (p1[1]-p2[1])**2) for p1 in data] for p2 in data]
-    
+
     print('PASS, cost =', calc_cost(last_record, distances))
-    
-    
-   
-    
-    
-        
