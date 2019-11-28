@@ -3,6 +3,9 @@ import numpy as np
 import sys
 import time
 import math
+import re
+
+_line_matcher = re.compile(r'^(?:\d+,?)+$')
 
 def is_path_correct(path):
     if len(path) > 0 and min(path) == 2 and max(path) == len(path) + 1:
@@ -16,6 +19,22 @@ def calc_cost(path, distances):
         d += distances[path[i]][path[i+1]]
     d += distances[path[-1]][1]
     return d
+
+def parse_records(records: str):
+    records = records.splitlines()
+    records = [x.strip() for x in records]
+    records = [x for x in records if x]
+    return records
+
+def parse_line(line: str):
+    chunks = line.split(',')
+    chunks = [x.strip() for x in chunks]
+    chunks = [int(x) for x in chunks if x]
+    return chunks
+
+def compute_distances(datapath):
+    data = np.loadtxt(datapath, skiprows=1)
+    return [[math.sqrt((p1[0]-p2[0])**2 + (p1[1]-p2[1])**2) for p1 in data] for p2 in data]
 
 if __name__ == '__main__':
     if len(sys.argv) < 2:
@@ -43,21 +62,24 @@ if __name__ == '__main__':
 
     print('TIME =', end_time - start_time)
 
-    records = output.decode('utf-8').split('\n')
-    if len(records) > 1:
-        records = records[0:-1]
+    records = parse_records(output.decode('utf-8'))
+    records.reverse()
 
-    max_tries = min(3, len(records))
-    for i in range(max_tries):
-        last_record = [int(j) for j in records[-1-i].split(',')[0:-1]]
-        if is_path_correct(last_record):
+    last_path = None
+    for i, record in enumerate(records):
+        m = _line_matcher.match(record)
+        if not m:
+            continue
+        path = parse_line(record)
+        if is_path_correct(path):
+            last_path = path
             break
-        print('FAIL pass', i+1, 'line:', records[-1-i])
-        if i == max_tries-1:
-            print('RUN FAILED')
-            exit(1)
+        print(f'FAILED: "{record}"')
 
-    data = np.loadtxt(datapath, skiprows=1)
-    distances = [[math.sqrt((p1[0]-p2[0])**2 + (p1[1]-p2[1])**2) for p1 in data] for p2 in data]
+    if not last_path:
+        print('Cannot parse output:')
+        print('\n'.join(records))
+        exit(1)
 
-    print('PASS, cost =', calc_cost(last_record, distances))
+    distances = compute_distances(datapath)
+    print('PASS, cost =', calc_cost(last_path, distances))
