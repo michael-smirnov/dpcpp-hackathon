@@ -1,94 +1,93 @@
-#include <iostream>
+#include<iostream>
+#include<fstream>
 
-#include <vector>
-#include <tuple>
+using namespace std;
 
-#include <cmath>
-#include <algorithm>
-#include <limits>
+float ary[100][100]; 
+int completed[100], n;
+float cost = 0;
 
-struct Point {
-    float x;
-    float y;
-    
-    Point(float x, float y)
-        : x(x), y(y)
-    { }
-    
-    static float distance(const Point& p1, const Point& p2) {
-        float result = 0.f;
-        result += (p1.x - p2.x)*(p1.x - p2.x);
-        result += (p1.y - p2.y)*(p1.y - p2.y);
-        
-        return std::sqrt(result);
-    }
-};
+void takeInput()
+{
+	int i, j;
 
-std::vector<float> find_distances(const std::vector<Point>& points);
-void find_shortest_path(const std::vector<float>& distances);
+	//std::ifstream file("data.txt");
 
-int main() {
-    std::vector<Point> points;
-    {
-        int number_of_points = 0;
-        std::cin >> number_of_points;
-    
-        for (size_t i = 0; i < number_of_points; i++) {
-            float x, y;
-            std::cin >> x >> y;
-            points.emplace_back(x, y);
-        }
-    }
-    
-    std::vector<float> distances = find_distances(points);
-    find_shortest_path(distances);
-    
-    return 0;
+	cin >> n;
+
+	n += 1;
+
+	float** dots = new float*[n];
+
+	for (i = 0; i < n-1; i++)
+	{
+		dots[i] = new float[2];
+		cin >> dots[i][0] >> dots[i][1];
+	}
+
+	for (i = 0; i < n-1; i++)
+		for (j = 0; j < n-1; j++)
+			ary[i][j] = sqrtf((dots[i][0] - dots[j][0]) * (dots[i][0] - dots[j][0]) + (dots[i][1] - dots[j][1]) * (dots[i][1] - dots[j][1]));
+	ary[n][0] = 0;
+	ary[0][n] = 0;
+	ary[n][1] = 0;
+	ary[1][n] = 0;
+
+	for (i = 2; i < n; i++)
+	{
+		ary[n][i] = 999;
+		ary[i][n] = 999;
+	}
+			
 }
 
-std::vector<float> find_distances(const std::vector<Point>& points) {
-    const size_t n = points.size();
-    
-    std::vector<float> distances(n*n, 0.f);
-    for (size_t row = 0; row < n; row++) {
-        for (size_t col = 0; col < n; col++) {
-            distances[row*n + col] = Point::distance(points[row], points[col]);
-        }
-    }
-    
-    return distances;
+int least(int c)
+{
+	int i, nc = 999;
+	float min = 999, kmin;
+
+	for (i = 0; i < n; i++)
+	{
+		if ((ary[c][i] != 0) && (completed[i] == 0))
+			if (ary[c][i] + ary[i][c] < min)
+			{
+				min = ary[i][0] + ary[c][i];
+				kmin = ary[c][i];
+				nc = i;
+			}
+	}
+
+	if (min != 999)
+		cost += kmin;
+
+	return nc;
 }
 
-void find_shortest_path(const std::vector<float>& distances) {
-    const size_t n = std::sqrt(distances.size());
-    const size_t start_point = 0;
-    const size_t end_point = 1;
-    
-    std::vector<size_t> point_indices;
-    for (size_t i = 2; i < n; i++) {
-            point_indices.push_back(i);
-    }
-    
-    auto min_path = std::numeric_limits<float>::max();
-    do {
-        std::vector<size_t> cur_path;
-        
-        float cur_path_weight = 0.f;
-        size_t cur_point = start_point;
-        
-        for (size_t i = 0; i < point_indices.size(); i++) {
-            cur_path_weight += distances[cur_point*n + point_indices[i]];
-            cur_point = point_indices[i];
-            cur_path.push_back(cur_point);
-        }
-        cur_path_weight += distances[cur_point*n + end_point];
-        
-        if (min_path > cur_path_weight) {
-            min_path = cur_path_weight;
-            for (size_t idx : cur_path) {
-                std::cout << idx << ",";
-            }
-            std::cout << std::endl;
-        }
-    } while (std::next_permutation(point_indices.begin(), point_indices.end()));
+void mincost(int city)
+{
+	int i, ncity;
+
+	completed[city] = 1;
+
+	ncity = least(city);
+
+	if (ncity == 999)
+	{
+		ncity = 0;
+		cost += ary[city][ncity];
+
+		return;
+	}
+
+	mincost(ncity);
+}
+
+int main()
+{
+	takeInput();
+	mincost(0);
+
+	cout << cost - ary[1][2];
+
+	return 0;
 }
