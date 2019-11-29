@@ -28,10 +28,10 @@ void takeInput()
 	for (i = 0; i < n-1; i++)
 		for (j = 0; j < n-1; j++)
 			ary[i][j] = sqrt((dots[i][0] - dots[j][0]) * (dots[i][0] - dots[j][0]) + (dots[i][1] - dots[j][1]) * (dots[i][1] - dots[j][1]));
-	ary[n-1][0] = 0;
-	ary[0][n-1] = 0;
-	ary[n-1][1] = 0;
-	ary[1][n-1] = 0;
+	ary[n-1][0] = 1;
+	ary[0][n-1] = 1;
+	ary[n-1][1] = 1;
+	ary[1][n-1] = 1;
 
 	for (i = 2; i <= n; i++)
 	{
