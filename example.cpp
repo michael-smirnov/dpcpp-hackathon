@@ -6,7 +6,6 @@ using namespace std;
 
 float ary[1000][1000]; 
 int completed[1000], n;
-float cost = 0;
 
 void takeInput()
 {
@@ -58,9 +57,6 @@ int least(int c)
 			}
 	}
 
-	if (min != 9999)
-		cost += kmin;
-
 	return nc;
 }
 
@@ -79,7 +75,6 @@ void mincost(int city)
 	if (ncity == 9999)
 	{
 		ncity = 0;
-		cost += ary[city][ncity];
 		cout<<"\r";
 		return;
 	}
