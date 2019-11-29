@@ -1,5 +1,6 @@
 #include<iostream>
 #include<fstream>
+#include<cmath>
 
 using namespace std;
 
@@ -27,7 +28,7 @@ void takeInput()
 
 	for (i = 0; i < n-1; i++)
 		for (j = 0; j < n-1; j++)
-			ary[i][j] = sqrtf((dots[i][0] - dots[j][0]) * (dots[i][0] - dots[j][0]) + (dots[i][1] - dots[j][1]) * (dots[i][1] - dots[j][1]));
+			ary[i][j] = sqrt((dots[i][0] - dots[j][0]) * (dots[i][0] - dots[j][0]) + (dots[i][1] - dots[j][1]) * (dots[i][1] - dots[j][1]));
 	ary[n][0] = 0;
 	ary[0][n] = 0;
 	ary[n][1] = 0;
