@@ -4,8 +4,8 @@
 
 using namespace std;
 
-float ary[100][100]; 
-int completed[100], n;
+float ary[1000][1000]; 
+int completed[1000], n;
 float cost = 0;
 
 void takeInput()
@@ -36,16 +36,16 @@ void takeInput()
 
 	for (i = 2; i < n; i++)
 	{
-		ary[n][i] = 999;
-		ary[i][n] = 999;
+		ary[n][i] = 9999;
+		ary[i][n] = 9999;
 	}
 			
 }
 
 int least(int c)
 {
-	int i, nc = 999;
-	float min = 999, kmin;
+	int i, nc = 9999;
+	float min = 9999, kmin;
 
 	for (i = 0; i < n; i++)
 	{
@@ -58,7 +58,7 @@ int least(int c)
 			}
 	}
 
-	if (min != 999)
+	if (min != 9999)
 		cost += kmin;
 
 	return nc;
@@ -76,7 +76,7 @@ void mincost(int city)
 
 	ncity = least(city);
 
-	if (ncity == 999)
+	if (ncity == 9999)
 	{
 		ncity = 0;
 		cost += ary[city][ncity];
