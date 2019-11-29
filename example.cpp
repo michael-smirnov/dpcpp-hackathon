@@ -76,7 +76,7 @@ std::vector<Point> points = inputtxt();
 std::vector<size_t> output; 
 float shortestPath = findShortestPath(points, output); 
 
-for (int i = 0; i < output.size() - 2; i++) { 
+for (int i = 0; i <= output.size(); i++) { 
 std::cout<<output[i]<<","; 
 } 
 std::cout<<"\r";
