@@ -33,7 +33,7 @@ void takeInput()
 	ary[n-1][1] = 1;
 	ary[1][n-1] = 1;
 
-	for (i = 2; i <= n; i++)
+	for (i = 2; i < n; i++)
 	{
 		ary[n-1][i] = 9999;
 		ary[i][n-1] = 9999;
@@ -65,7 +65,7 @@ void mincost(int city)
 	int i, ncity;
 
 	completed[city] = 1;
-	if (city != 0 && city !=1)
+	if (city != 0 && city !=1 && city != n-1)
 	{
 		cout<<city<<",";
 	}
