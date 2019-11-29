@@ -4,7 +4,7 @@
 
 using namespace std;
 
-float ary[1000][1000]; 
+double ary[1000][1000]; 
 int completed[1000], n;
 
 void takeInput()
@@ -17,17 +17,17 @@ void takeInput()
 
 	n += 1;
 
-	float** dots = new float*[n];
+	double** dots = new double*[n];
 
 	for (i = 0; i < n-1; i++)
 	{
-		dots[i] = new float[2];
+		dots[i] = new double[2];
 		cin >> dots[i][0] >> dots[i][1];
 	}
 
 	for (i = 0; i < n-1; i++)
 		for (j = 0; j < n-1; j++)
-			ary[i][j] = sqrtf((dots[i][0] - dots[j][0]) * (dots[i][0] - dots[j][0]) + (dots[i][1] - dots[j][1]) * (dots[i][1] - dots[j][1]));
+			ary[i][j] = sqrt((dots[i][0] - dots[j][0]) * (dots[i][0] - dots[j][0]) + (dots[i][1] - dots[j][1]) * (dots[i][1] - dots[j][1]));
 	ary[n][0] = 0;
 	ary[0][n] = 0;
 	ary[n][1] = 0;
@@ -44,7 +44,7 @@ void takeInput()
 int least(int c)
 {
 	int i, nc = 9999;
-	float min = 9999, kmin;
+	double min = 9999, kmin;
 
 	for (i = 0; i < n; i++)
 	{
