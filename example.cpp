@@ -33,7 +33,7 @@ void takeInput()
 	ary[n-1][1] = 0;
 	ary[1][n-1] = 0;
 
-	for (i = 2; i < n; i++)
+	for (i = 2; i <= n; i++)
 	{
 		ary[n-1][i] = 9999;
 		ary[i][n-1] = 9999;
