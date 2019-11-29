@@ -70,13 +70,14 @@ void mincost(int city)
 
 	completed[city] = 1;
 
+	cout<<city+1<<",";
+
 	ncity = least(city);
 
 	if (ncity == 999)
 	{
 		ncity = 0;
 		cost += ary[city][ncity];
-
 		return;
 	}
 
@@ -88,7 +89,7 @@ int main()
 	takeInput();
 	mincost(0);
 
-	cout << cost - ary[1][2];
+	//cout << cost - ary[1][2];
 
 	return 0;
 }
