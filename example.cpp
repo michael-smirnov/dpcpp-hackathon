@@ -69,8 +69,8 @@ void mincost(int city)
 	int i, ncity;
 
 	completed[city] = 1;
-
-	cout<<city+1<<",";
+	if (city != 0 && city !=1)
+		cout<<city<<",";
 
 	ncity = least(city);
 
@@ -78,6 +78,7 @@ void mincost(int city)
 	{
 		ncity = 0;
 		cost += ary[city][ncity];
+		cout<<ncity;
 		return;
 	}
 
